@@ -1,6 +1,6 @@
 package ru.yakimovvn;
 
-public class Team {
+class Team {
 
     enum  Players{
         VLADIMIR("Владимир",3.2), IRINA("Ирина",1.9),
@@ -25,12 +25,12 @@ public class Team {
     private String teamName;
     private Players [] players;
 
-    public Team(String teamName){
+    Team(String teamName){
         this.teamName = teamName;
         players = Players.values();
     }
 
-    public void teamInfo(){
+    void teamInfo(){
         System.out.println("Команда "+ teamName+"\nУчастники:");
         for(Players thePlayer: players){
             System.out.println(thePlayer.getName()+"\tПреодалевает препятствие "+ thePlayer.getMaxJump());
@@ -38,11 +38,11 @@ public class Team {
         System.out.println();
     }
 
-    public void pastDistancePlayers(Players player){
+    void pastDistancePlayers(Players player){
         System.out.println(player.getName()+ " прошёл дистанцию.");
     }
 
-    public Players[] getPlayers() {
+    Players[] getPlayers() {
         return players;
     }
 }

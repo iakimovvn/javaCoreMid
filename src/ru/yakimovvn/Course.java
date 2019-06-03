@@ -1,9 +1,9 @@
 package ru.yakimovvn;
 
-public class Course {
+class Course {
     private double [] distance;
 
-    public  Course(double [] distance){
+    Course(double [] distance){
         this.distance = distance;
     }
 
@@ -11,7 +11,7 @@ public class Course {
         return maxJump>=obstacle;
     }
 
-    public void passingDistance(Team team) {
+    void passingDistance(Team team) {
 
         for (int i = 0; i <team.getPlayers().length; i++) {
             boolean distancePassed = true;
