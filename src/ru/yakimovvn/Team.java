@@ -35,6 +35,7 @@ public class Team {
         for(Players thePlayer: players){
             System.out.println(thePlayer.getName()+"\tПреодалевает препятствие "+ thePlayer.getMaxJump());
         }
+        System.out.println();
     }
 
     public void pastDistancePlayers(Players player){
