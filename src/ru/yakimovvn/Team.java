@@ -7,10 +7,12 @@ class Team {
         SERGEI("Сергей", 2.5), ANNA("Анна",1.4);
         private String name;
         private double maxJump;
+        private boolean isPastDistance;
 
         Players(String name, double maxJump){
             this.name = name;
             this.maxJump = maxJump;
+            isPastDistance = true;
         }
 
         public String getName() {
@@ -19,6 +21,14 @@ class Team {
 
         public double getMaxJump() {
             return maxJump;
+        }
+
+        public boolean isPastDistance() {
+            return isPastDistance;
+        }
+
+        public void setPastDistance(boolean pastDistance) {
+            isPastDistance = pastDistance;
         }
     }
 
@@ -38,8 +48,14 @@ class Team {
         System.out.println();
     }
 
-    void pastDistancePlayers(Players player){
-        System.out.println(player.getName()+ " прошёл дистанцию.");
+    void showResults(){
+        for (Players teamPlayer: players) {
+            if (teamPlayer.isPastDistance()) {
+                System.out.println(teamPlayer.getName() + " прошёл(ла) дистанцию.");
+            }else{
+                System.out.println(teamPlayer.getName() + " к сожалению не прошёл(ла) дистанцию.");
+            }
+        }
     }
 
     Players[] getPlayers() {
