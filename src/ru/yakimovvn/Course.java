@@ -14,12 +14,12 @@ public class Course {
     public void passingDistance(Team team) {
         output:
         for (int i = 0; i <team.getPlayers().length; i++) {
-            for (int j = 0; j <distance.length; j++) {
-                if(!isObstaclePassed(team.getPlayers()[i].getMaxJump(),distance[j])){
+            for (double obstacle : distance) {
+                if(!isObstaclePassed(team.getPlayers()[i].getMaxJump(),obstacle)){
                     break output;
                 }
-                team.pastDistancePlayers(team.getPlayers()[i]);
             }
+            team.pastDistancePlayers(team.getPlayers()[i]);
         }
     }
 
