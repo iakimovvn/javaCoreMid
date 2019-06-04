@@ -59,6 +59,10 @@ class Team {
     }
 
     Players[] getPlayers() {
-        return players;
+        Players [] playersForOut = new Players[players.length];
+        for (int i = 0; i <players.length ; i++) {
+            playersForOut[i] = players[i];
+        }
+        return playersForOut;
     }
 }
