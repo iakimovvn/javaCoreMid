@@ -15,6 +15,7 @@ public class Course {
         for(Competitor player : team.getPlayers()){
             for (Obstacle obstacle: distance) {
                 obstacle.doIt(player);
+                if(!player.isOnDistance()) break;
             }
         }
     }
