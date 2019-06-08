@@ -2,20 +2,28 @@ package LessonException;
 
 import LessonException.Exceptions.*;
 
-public class MainClass {
+public class SumElementsOfArrayMain {
 
     private static boolean isNumber (String str){
         boolean res = true;
+
         for(char c : str.toCharArray()){
-            if(!Character.isDigit(c)) res = false;
+            if(!Character.isDigit(c)) {
+                res = false;
+                break;
+            }
         }
         return res;
     }
 
     private static int sumElementsOfArray(String [][] arrayOfNumbers) throws MyArraySizeException, MyArrayDataException {
+
+        final int SIZE_SQUARE_ARRAY = 4;
         int sumElements = 0;
 
-        if(arrayOfNumbers.length!=4 || arrayOfNumbers[0].length!=4) throw new MyArraySizeException();
+        if(arrayOfNumbers.length!= SIZE_SQUARE_ARRAY || arrayOfNumbers[0].length!=SIZE_SQUARE_ARRAY)
+            throw new MyArraySizeException();
+
         for (int i = 0; i <arrayOfNumbers.length ; i++) {
             for (int j = 0; j <arrayOfNumbers[i].length ; j++) {
                 if(!isNumber(arrayOfNumbers[i][j])) throw new MyArrayDataException(i,j);
