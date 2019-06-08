@@ -25,9 +25,9 @@ public class MainClass {
         try{
             System.out.println(sumElementsOfArray(new String[][]{
                     {"2","3","4","5"},
-                    {"2","3","wvjk","5"},
-                    {"2","3","4","5"},
-                    {"2","3","4","5"}}
+                    {"6","3","2","5"},
+                    {"2","4","4","1"},
+                    {"4","1","4","5"}}
                     )
             );
         } catch (MyArraySizeException es){
