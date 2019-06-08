@@ -11,13 +11,10 @@ public class MainClass {
         for (int i = 0; i <arrayOfNumbers.length ; i++) {
             for (int j = 0; j <arrayOfNumbers[i].length ; j++) {
                 try {
-                    //if(false) throw new MyArrayDataException(i,j);
                     sumElements +=Integer.parseInt(arrayOfNumbers[i][j]);
                 }catch(NumberFormatException e){
                     throw new MyArrayDataException(i,j);
                 }
-
-
             }
         }
         return sumElements;
@@ -26,12 +23,18 @@ public class MainClass {
 
     public static void main(String[] args) {
         try{
-            System.out.println(Integer.toString(sumElementsOfArray(new String[][]{{"2","3","4","5"},{"2","3","wvjk","5"},{"2","3","4","5"},{"2","3","4","5"}})));
-        } catch (MyArraySizeException e){
-            e.printStackTrace();
+            System.out.println(sumElementsOfArray(new String[][]{
+                    {"2","3","4","5"},
+                    {"2","3","wvjk","5"},
+                    {"2","3","4","5"},
+                    {"2","3","4","5"}}
+                    )
+            );
+        } catch (MyArraySizeException es){
+            es.printStackTrace();
         }
-        catch (MyArrayDataException e){
-            e.printStackTrace();
+        catch (MyArrayDataException ed){
+            ed.printStackTrace();
         }
 
     }
