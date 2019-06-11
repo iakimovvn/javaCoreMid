@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TelephoneDirectory {
-    private HashMap<String, Set<Long>> phoneTable;
+    private HashMap<String, HashSet<Long>> phoneTable;
 
     public TelephoneDirectory() {
         phoneTable = new HashMap<>();
