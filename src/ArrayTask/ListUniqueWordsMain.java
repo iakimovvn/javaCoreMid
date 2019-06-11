@@ -14,8 +14,9 @@ public class ListUniqueWordsMain {
         return array;
     }
 
-    private static void sortingWordOfArray (String ... crockery){
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(arrayToLoverCase(crockery)));
+    private static void sortingWordOfArray (String ... stringWords){
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(arrayToLoverCase(stringWords)));
+        System.out.println("Дан массив слов:");
         System.out.println(arrayList);
 
         Iterator <String> iterator = arrayList.iterator();
@@ -31,6 +32,7 @@ public class ListUniqueWordsMain {
             }
             else selectedElements.put(element,1);
         }
+        System.out.println("Результаты сортировки:");
         System.out.println(selectedElements);
     }
 
