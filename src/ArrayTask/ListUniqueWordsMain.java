@@ -1,9 +1,6 @@
 package ArrayTask;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class ListUniqueWordsMain {
 
@@ -14,28 +11,44 @@ public class ListUniqueWordsMain {
         return array;
     }
 
-    private static void sortingWordOfArray (String ... stringWords){
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(arrayToLoverCase(stringWords)));
-        System.out.println("Дан массив слов:");
-        System.out.println(arrayList);
-
-        Iterator <String> iterator = arrayList.iterator();
-
-        HashMap <String, Integer> selectedElements = new HashMap<>();
-        selectedElements.put(iterator.next(), 1);
-        while(iterator.hasNext()){
-            String element = iterator.next();
-
-            if(selectedElements.containsKey(element)){
-                Integer number = selectedElements.get(element);
-                selectedElements.put(element,++number);
-            }
-            else selectedElements.put(element,1);
+    private static String arrayInfo(String ... wordsArr){
+        StringBuilder res = new StringBuilder("Дан массив:\n");
+        for (String word: wordsArr) {
+            res.append(word);
+            res.append("\t");
         }
-        System.out.println("Результаты сортировки:");
-        System.out.println(selectedElements);
+        return res.toString();
     }
 
+    private static String sortInfo(HashMap <String, Integer> hashMap){
+        StringBuilder res = new StringBuilder("Результаты сортировки:\n");
+        for (Map.Entry<String, Integer> o: hashMap.entrySet()) {
+            res.append(o.getKey());
+            res.append("\tповторилось\t");
+            res.append(o.getValue());
+            res.append(" раз(a)\n");
+        }
+        return res.toString();
+    }
+
+    private static void sortingWordOfArray (String ... stringWords){
+
+        System.out.println(arrayInfo(stringWords));
+
+        String [] workStringArray = arrayToLoverCase(stringWords);
+        HashMap <String, Integer> selectedElements = new HashMap<>();
+
+        for (String word: workStringArray) {
+            if(selectedElements.containsKey(word)){
+                Integer elementValue = selectedElements.get(word);
+                selectedElements.put(word,++elementValue);
+            }
+            else selectedElements.put(word,1);
+        }
+
+        System.out.println(sortInfo(selectedElements));
+
+    }
 
     public static void main(String[] args) {
         String [] crockery = new String[]{"Тарелка","Блюдо","вилка","Ложка","ТАРЕЛКА",
@@ -43,7 +56,5 @@ public class ListUniqueWordsMain {
                 "Вилка","самовар","Нож","Самовар","Тарелка"};
 
         sortingWordOfArray(crockery);
-
-
     }
 }
