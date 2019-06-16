@@ -43,19 +43,54 @@
 }
 .messageSite{
     -fx-pref-width: 400;
+
+
 }
 
 .contactsSite{
     -fx-pref-width: 200;
 }
+.loginLabel{
+    -fx-font-family: Arial;
+    -fx-font-size: 18;
+    -fx-text-fill: RED;
+}
 
 
+.scroll-pane .viewport{
+    -fx-background-color: #d1fffa;
+}
+.scroll-pane {
+    -fx-pref-height: 280;
+    -fx-pref-width: 300;
 
-.textArea{
-    -fx-background-color: #84fdff;
+}
+
+.scrollPaneContacts{
+    -fx-pref-height: 150;
+    -fx-pref-width: 300;
+    -fx-background-color: #fff7e8;
+}
+.textFlowContacts{
+    -fx-background-color: #fff7e8;
+    -fx-padding: 10;
+    -fx-spacing: 10;
     -fx-font-family: Arial;
     -fx-font-size: 15;
     -fx-text-fill: #1e02ff;
+    -fx-pref-height: 504;
+    -fx-pref-width: 198,5;
+}
+
+.textFlow{
+    -fx-background-color: #d1fffa;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-font-family: Arial;
+    -fx-font-size: 15;
+    -fx-text-fill: #1e02ff;
+    -fx-pref-height: 476;
+    -fx-pref-width: 382;
 }
 
 .sendButtonRed{

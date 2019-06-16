@@ -3,18 +3,24 @@ package ChatWindowJavaFX.sample;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
 public class Controller {
 
 
+    @FXML
+    private ImageView avatarImg;
 
     @FXML
     private Label userName;
 
     @FXML
-    private TextArea textArea;
+    private TextFlow textFlow;
 
     @FXML
     private TextField textField;
@@ -28,13 +34,18 @@ public class Controller {
     @FXML
     private Button btnSend;
 
+    @FXML
+    private ScrollPane sp;
+
 
     public void sendMsg(){
-        String [] messageArr = transferLines(textField.getText().split(" "));
-        for (String msg: messageArr) {
-            textArea.appendText(msg+"\n");
-        }
-        textArea.appendText("\n");
+        Text text = new Text(":\t"+textField.getText()+"\n");
+        Label  login = new Label(userName.getText());
+        login.getStyleClass().add("loginLabel");
+
+        textFlow.getChildren().addAll(new ImageView(avatarImg.getImage()),login,text);
+        sp.setVvalue(1.0);
+
         textField.clear();
         textField.requestFocus();
     }
@@ -51,25 +62,8 @@ public class Controller {
         btnSend.getStyleClass().add("sendButtonYellow");
     }
 
-    private String[] transferLines(String [] strArr){
-        final int LINE_SIZE = 40;
-        ArrayList<String> arrayList = new ArrayList<>();
-        StringBuilder stringBuilder= new StringBuilder(userName.getText()+":  ");
-        for (String word: strArr) {
-            if((stringBuilder.length()+word.length()) < LINE_SIZE){
-                stringBuilder.append(" "+word);
-            }
-            else{
-                arrayList.add(stringBuilder.toString());
-                stringBuilder.delete(0,stringBuilder.length());
-                stringBuilder.append(word);
-            }
-        }
-        arrayList.add(stringBuilder.toString());
-
-        return arrayList.toArray(new String[arrayList.size()]);
+    public void clearChat(){
+        textFlow.getChildren().clear();
     }
-
-
 
 }

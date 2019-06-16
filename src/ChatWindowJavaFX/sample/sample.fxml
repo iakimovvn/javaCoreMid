@@ -10,6 +10,7 @@
 <?scenebuilder-stylesheet @/ChatWindowJavaFX/css/Style.css?>
 
 <?import java.net.URL?>
+<?package javafx.scene.layout.AnchorPane?>
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextArea?>
@@ -29,6 +30,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
 <VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml">
     <MenuBar prefHeight="29.0">
         <menus>
@@ -40,7 +44,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Tools">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="Clear" />
+                    <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearChat"/>
                 </items>
             </Menu>
         </menus>
@@ -49,8 +53,8 @@
         <stylesheets><URL value="@/ChatWindowJavaFX/css/Style.css"/></stylesheets>
         <VBox styleClass="messageSite" >
             <HBox  depthTest="ENABLE"  styleClass="loginTitleBlueRed" fx:id="loginTitle">
-                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                        <Image fx:id="avatarImg" url="@/ChatWindowJavaFX/smiles/anger.png" />
+                    <ImageView fx:id="avatarImg" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <Image  url="@/ChatWindowJavaFX/smiles/anger.png" />
                         <HBox.margin>
                             <Insets  right="30.0"/>
                         </HBox.margin>
@@ -65,7 +69,11 @@
                     </Circle>
             </HBox>
 
-            <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS" styleClass="textArea" />
+            <ScrollPane fx:id="sp"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
+                <content>
+                    <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlow" />
+                </content>
+            </ScrollPane>
 
             <HBox>
                 <TextField fx:id="textField" onAction="#sendMsg" HBox.hgrow="ALWAYS" promptText="Введите сообщение..."/>
@@ -75,6 +83,12 @@
 
         <VBox styleClass="contactsSite">
             <Label  styleClass="contactsTitleBlueRed" text="Contacts" fx:id="contactsTitle"/>
+            <ScrollPane fx:id="spContacts"  VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
+                        prefWidth="280.0" styleClass="scrollPaneContacts">
+                <content>
+                    <TextFlow fx:id="textFlowContacts"  VBox.Vgrow="ALWAYS" styleClass="textFlowContacts" />
+                </content>
+            </ScrollPane>
 
         </VBox>
 
