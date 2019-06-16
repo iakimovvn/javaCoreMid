@@ -5,11 +5,9 @@ import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.util.ArrayList;
 public class Controller {
 
 
@@ -51,14 +49,20 @@ public class Controller {
     }
 
     public void makeBlueRedTheme(){
+        loginTitle.getStyleClass().remove("loginTitleGreenYellow");
         loginTitle.getStyleClass().add("loginTitleBlueRed");
-        contactsTitle.getStyleClass().add("contactsBlueRed");
+        contactsTitle.getStyleClass().remove("contactsGreenYellow");
+        contactsTitle.getStyleClass().add("contactsTitleBlueRed");
+        btnSend.getStyleClass().remove("sendButtonYellow");
         btnSend.getStyleClass().add("sendButtonRed");
-    }
+}
 
     public void makeGreenYellowTheme(){
+        loginTitle.getStyleClass().remove("loginTitleBlueRed");
         loginTitle.getStyleClass().add("loginTitleGreenYellow");
+        contactsTitle.getStyleClass().remove("contactsTitleBlueRed");
         contactsTitle.getStyleClass().add("contactsGreenYellow");
+        btnSend.getStyleClass().remove("sendButtonRed");
         btnSend.getStyleClass().add("sendButtonYellow");
     }
 

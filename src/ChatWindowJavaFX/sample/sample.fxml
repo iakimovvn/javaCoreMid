@@ -1,53 +1,30 @@
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-
-<?import java.lang.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.Group?>
-
 <?scenebuilder-stylesheet @/ChatWindowJavaFX/css/Style.css?>
-
 <?import java.net.URL?>
 <?package javafx.scene.layout.AnchorPane?>
-
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.effect.GaussianBlur?>
-<?import javafx.scene.effect.Reflection?>
-
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.text.TextFlow?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml">
     <MenuBar prefHeight="29.0">
-        <menus>
-            <Menu mnemonicParsing="false" text="Theme">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Blue-Red" fx:id="blueRedTheme" onAction="#makeBlueRedTheme" />
-                    <MenuItem mnemonicParsing="false" text="Green-Yellow" fx:id="greenYellowTheme" onAction="#makeGreenYellowTheme"/>
-                </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Tools">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearChat"/>
-                </items>
-            </Menu>
-        </menus>
+        <Menu mnemonicParsing="false" text="Theme">
+            <MenuItem mnemonicParsing="false" text="Blue-Red"  onAction="#makeBlueRedTheme" />
+            <MenuItem mnemonicParsing="false" text="Green-Yellow"  onAction="#makeGreenYellowTheme"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Tools">
+            <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearChat"/>
+        </Menu>
     </MenuBar>
     <HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" VBox.vgrow="ALWAYS" >
         <stylesheets><URL value="@/ChatWindowJavaFX/css/Style.css"/></stylesheets>
@@ -70,9 +47,7 @@
             </HBox>
 
             <ScrollPane fx:id="sp"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
-                <content>
                     <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlow" />
-                </content>
             </ScrollPane>
 
             <HBox>
@@ -83,11 +58,9 @@
 
         <VBox styleClass="contactsSite">
             <Label  styleClass="contactsTitleBlueRed" text="Contacts" fx:id="contactsTitle"/>
-            <ScrollPane fx:id="spContacts"  VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
+            <ScrollPane   VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
                         prefWidth="280.0" styleClass="scrollPaneContacts">
-                <content>
-                    <TextFlow fx:id="textFlowContacts"  VBox.Vgrow="ALWAYS" styleClass="textFlowContacts" />
-                </content>
+                <TextFlow  VBox.Vgrow="ALWAYS" styleClass="textFlowContacts" />
             </ScrollPane>
 
         </VBox>
