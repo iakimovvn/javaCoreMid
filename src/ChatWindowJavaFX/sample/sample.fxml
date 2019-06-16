@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.Group?>
 
-<?scenebuilder-stylesheet /css/Style.css?>
+<?scenebuilder-stylesheet @/ChatWindowJavaFX/css/Style.css?>
 
 <?import java.net.URL?>
 
@@ -15,12 +15,69 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
-<VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="CENTER">
-    <stylesheets><URL value="@/ChatWindowJavaFX/css/Style.css"/></stylesheets>
-    <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
-    <HBox>
-        <TextField fx:id="textField" onAction="#sendMsg" HBox.hgrow="ALWAYS" promptText="Введите сообщение..."/>
-        <Button onAction="#sendMsg" fx:id="btnSend" text="Send"/>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.effect.Reflection?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.MenuBar?>
+<VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml">
+    <MenuBar prefHeight="29.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="Theme">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="Blue-Red" fx:id="blueRedTheme" onAction="#makeBlueRedTheme" />
+                    <MenuItem mnemonicParsing="false" text="Green-Yellow" fx:id="greenYellowTheme" onAction="#makeGreenYellowTheme"/>
+                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tools">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="Clear" />
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    <HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" VBox.vgrow="ALWAYS" >
+        <stylesheets><URL value="@/ChatWindowJavaFX/css/Style.css"/></stylesheets>
+        <VBox styleClass="messageSite" >
+            <HBox  depthTest="ENABLE"  styleClass="loginTitleBlueRed" fx:id="loginTitle">
+                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <Image fx:id="avatarImg" url="@/ChatWindowJavaFX/smiles/anger.png" />
+                        <HBox.margin>
+                            <Insets  right="30.0"/>
+                        </HBox.margin>
+                    </ImageView>
+
+                    <Label fx:id="userName" text="userName" styleClass="userLogin"/>
+
+                    <Circle disable="true" fill="#3ed936"  radius="8.0" stroke="WHITE" strokeLineJoin="ROUND">
+                        <HBox.margin>
+                            <Insets left="15.0" />
+                        </HBox.margin>
+                    </Circle>
+            </HBox>
+
+            <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS" styleClass="textArea" />
+
+            <HBox>
+                <TextField fx:id="textField" onAction="#sendMsg" HBox.hgrow="ALWAYS" promptText="Введите сообщение..."/>
+                <Button onAction="#sendMsg" fx:id="btnSend" text="Send" styleClass="sendButtonRed"/>
+            </HBox>
+        </VBox>
+
+        <VBox styleClass="contactsSite">
+            <Label  styleClass="contactsTitleBlueRed" text="Contacts" fx:id="contactsTitle"/>
+
+        </VBox>
+
     </HBox>
 </VBox>
 
