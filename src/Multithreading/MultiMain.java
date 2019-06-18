@@ -11,7 +11,8 @@ public class MultiMain {
         Arrays.fill(arr,1);
         long a = System.currentTimeMillis();
         changeArrayForFormula(arr);
-        //System.currentTimeMillis();
+        //System.currentTimeMillis(); // этот метод в пункте 5 задания. Но разве мы не вызываем его ниже? или не хотим
+                                      // замерять время sout?
         System.out.println("Время исполнения однопоточной версии:"+(System.currentTimeMillis() - a));
 
     }
