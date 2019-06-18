@@ -11,7 +11,7 @@ public class MultiMain {
         Arrays.fill(arr,1);
         long a = System.currentTimeMillis();
         changeArrayForFormula(arr);
-        System.currentTimeMillis();
+        //System.currentTimeMillis();
         System.out.println("Время исполнения однопоточной версии:"+(System.currentTimeMillis() - a));
 
     }
@@ -41,9 +41,8 @@ public class MultiMain {
                 e.printStackTrace();
             }
         }
-
         glueArrays(arr,arrayList);
-        System.currentTimeMillis();
+        //System.currentTimeMillis();
         System.out.println("Время исполнения многопоточной версии:"+(System.currentTimeMillis() - time));
     }
 
