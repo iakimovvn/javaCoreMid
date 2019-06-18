@@ -12,7 +12,7 @@ public class MultiMain {
         long a = System.currentTimeMillis();
         changeArrayForFormula(arr);
         //System.currentTimeMillis(); // этот метод в пункте 5 задания. Но разве мы не вызываем его ниже? или не хотим
-                                      // замерять время sout?
+                                      // замерять время println()?
         System.out.println("Время исполнения однопоточной версии:"+(System.currentTimeMillis() - a));
 
     }
@@ -26,25 +26,27 @@ public class MultiMain {
 
         time = System.currentTimeMillis();
 
-        ArrayList <float []> arrayList= arrayToPiecesInArrayList(arr,AMOUNT_FLOWS);
+        ArrayList <float []> arrayList = arrayToPiecesInArrayList(arr,AMOUNT_FLOWS);
 
-        MyThread [] arrayMyThread = new MyThread[AMOUNT_FLOWS];
+        calculatingArraysValueWithFlows(arrayList);
+
+        glueArrays(arr,arrayList);
+        //System.currentTimeMillis();     //вопрос выше...
+        System.out.println("Время исполнения многопоточной версии:"+(System.currentTimeMillis() - time));
+    }
+    private static void calculatingArraysValueWithFlows(ArrayList <float []> arrayList){
+        MyThread [] arrayMyThread = new MyThread[arrayList.size()];
 
         for (int i = 0; i <arrayMyThread.length; i++) {
             arrayMyThread[i] = new MyThread(arrayList.get(i));
-        }
-
-        for (MyThread myThread : arrayMyThread) {
-            myThread.start();
+            arrayMyThread[i].start();
             try {
-                myThread.join();
+                arrayMyThread[i].join();
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
+
         }
-        glueArrays(arr,arrayList);
-        //System.currentTimeMillis();
-        System.out.println("Время исполнения многопоточной версии:"+(System.currentTimeMillis() - time));
     }
 
     static void changeArrayForFormula(float [] arr){
