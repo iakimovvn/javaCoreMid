@@ -19,12 +19,10 @@ public class MultiMain {
 
     private static void secondFunction(){
         int AMOUNT_FLOWS = 2;
-        long time;
         float [] arr = new float[SIZE];
         Arrays.fill(arr,1);
 
-
-        time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
 
         ArrayList <float []> arrayList = arrayToPiecesInArrayList(arr,AMOUNT_FLOWS);
 
@@ -34,6 +32,7 @@ public class MultiMain {
         //System.currentTimeMillis();     //вопрос выше...
         System.out.println("Время исполнения многопоточной версии:"+(System.currentTimeMillis() - time));
     }
+
     private static void calculatingArraysValueWithFlows(ArrayList <float []> arrayList){
         MyThread [] arrayMyThread = new MyThread[arrayList.size()];
 
@@ -80,9 +79,6 @@ public class MultiMain {
             startArrElement+=arrayFromList.length;
         }
     }
-
-
-
 
     public static void main(String[] args) {
         firstFunction();
