@@ -35,6 +35,9 @@ public class Controller {
     @FXML
     private ScrollPane sp;
 
+    @FXML
+    private Button btnLogin;
+
 
     public void sendMsg(){
         Text text = new Text(":\t"+textField.getText()+"\n");
@@ -68,6 +71,14 @@ public class Controller {
 
     public void clearChat(){
         textFlow.getChildren().clear();
+    }
+
+    public void login(){
+        textFlow.getChildren().clear();
+        textFlow.getStyleClass().remove("textFlowPassword");
+        textFlow.getStyleClass().add("textFlow");
+        btnSend.setDisable(false);
+        textField.setDisable(false);
     }
 
 }

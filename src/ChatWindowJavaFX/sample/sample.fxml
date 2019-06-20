@@ -16,6 +16,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Hyperlink?>
 <VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml">
     <MenuBar prefHeight="29.0">
         <Menu mnemonicParsing="false" text="Theme">
@@ -47,12 +49,39 @@
             </HBox>
 
             <ScrollPane fx:id="sp"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
-                    <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlow" />
+                <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlowPassword" >
+                    <children>
+                        <VBox prefHeight="138.0" prefWidth="227.0">
+                            <children>
+                                <HBox prefHeight="38.0" prefWidth="220.0">
+                                    <children>
+                                        <Label text="LOGIN" styleClass="label-login-password"/>
+                                        <TextField styleClass="text-field-login-password" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="38.0" prefWidth="220.0">
+                                    <children>
+                                        <Label text="PASSWORD" styleClass="label-login-password"/>
+                                        <PasswordField styleClass="text-field-login-password" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="TOP_RIGHT" prefHeight="27.0" prefWidth="163.0">
+                                    <children>
+                                        <Hyperlink text="Forget password?" styleClass="hyperlink-forgot"/>
+                                        <Button text="Login" mnemonicParsing="false" styleClass="button-login"
+                                                onAction="#login" fx:id="btnLogin"/>
+                                    </children>
+                                </HBox>
+                                <Hyperlink text="Registration" styleClass="hyperlink-registration" />
+                            </children>
+                        </VBox>
+                    </children>
+                </TextFlow>
             </ScrollPane>
 
             <HBox>
-                <TextField fx:id="textField" onAction="#sendMsg" HBox.hgrow="ALWAYS" promptText="Введите сообщение..."/>
-                <Button onAction="#sendMsg" fx:id="btnSend" text="Send" styleClass="sendButtonRed"/>
+                <TextField promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg" fx:id="textField" disable="true" />
+                <Button  text="Send" styleClass="sendButtonRed" onAction="#sendMsg" fx:id="btnSend" disable="true" />
             </HBox>
         </VBox>
 
@@ -60,7 +89,7 @@
             <Label  styleClass="contactsTitleBlueRed" text="Contacts" fx:id="contactsTitle"/>
             <ScrollPane   VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
                         prefWidth="280.0" styleClass="scrollPaneContacts">
-                <TextFlow  VBox.Vgrow="ALWAYS" styleClass="textFlowContacts" />
+                <TextFlow  VBox.Vgrow="ALWAYS"  styleClass="textFlowContacts" />
             </ScrollPane>
 
         </VBox>
