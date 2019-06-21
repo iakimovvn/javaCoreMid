@@ -1,4 +1,4 @@
-package ChatWindowJavaFX.sample;
+package ChatWindowJavaFX.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

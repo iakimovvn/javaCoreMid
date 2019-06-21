@@ -18,7 +18,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Hyperlink?>
-<VBox fx:controller="ChatWindowJavaFX.sample.Controller" xmlns:fx="http://javafx.com/fxml">
+<?import javafx.scene.control.TextArea?>
+<VBox fx:controller="ChatWindowJavaFX.client.Controller" xmlns:fx="http://javafx.com/fxml">
     <MenuBar prefHeight="29.0">
         <Menu mnemonicParsing="false" text="Theme">
             <MenuItem mnemonicParsing="false" text="Blue-Red"  onAction="#makeBlueRedTheme" />
@@ -29,11 +30,11 @@
         </Menu>
     </MenuBar>
     <HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" VBox.vgrow="ALWAYS" >
-        <stylesheets><URL value="@/ChatWindowJavaFX/css/Style.css"/></stylesheets>
+        <stylesheets><URL value="@/ChatWindowJavaFX/client/css/Style.css"/></stylesheets>
         <VBox styleClass="messageSite" >
             <HBox  depthTest="ENABLE"  styleClass="loginTitleBlueRed" fx:id="loginTitle">
                     <ImageView fx:id="avatarImg" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                        <Image  url="@/ChatWindowJavaFX/smiles/anger.png" />
+                        <Image  url="@/ChatWindowJavaFX/client/smiles/anger.png" />
                         <HBox.margin>
                             <Insets  right="30.0"/>
                         </HBox.margin>
@@ -48,7 +49,7 @@
                     </Circle>
             </HBox>
 
-            <ScrollPane fx:id="sp"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
+            <ScrollPane fx:id="scrollPane"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
                 <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlowPassword" >
                     <children>
                         <VBox prefHeight="138.0" prefWidth="227.0">
@@ -78,6 +79,7 @@
                     </children>
                 </TextFlow>
             </ScrollPane>
+
 
             <HBox>
                 <TextField promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg" fx:id="textField" disable="true" />
