@@ -24,6 +24,16 @@ public class ClientHandler {
                     try {
                         while (true){
                             String str = in.readUTF();
+
+                            if(str.equals("-1")){
+                                System.out.println("");
+                            }
+
+//                            if(in.read()<=-1){
+//                                System.out.println("Disconnect");
+//                                break;
+//                            }
+
                             if(str.equals("/end")){
                                 break;
                             }
@@ -64,4 +74,11 @@ public class ClientHandler {
         }
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public DataInputStream getIn() {
+        return in;
+    }
 }

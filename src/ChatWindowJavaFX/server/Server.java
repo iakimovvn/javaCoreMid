@@ -20,10 +20,25 @@ public class Server {
                 socket = server.accept();
                 System.out.println("Client connect");
                 clients.add(new ClientHandler(socket,this));
-//                if(socket.isClosed()){
-//                    clients.remove()
+
+
+
+
+
+//                if(socket.getInputStream().read() < 0){
+//                    System.out.println("Socet disconnect");
+//                    socket.close();
+//
+//
 //                }
 
+
+//                for(ClientHandler clientHandler : clients){
+//                    if(clientHandler.getIn().read()==1){
+//                        System.out.println("Socet disconnect");
+//                        clients.remove(clientHandler);
+//                    }
+//                }
 
             }
         } catch (IOException e) {
