@@ -3,6 +3,7 @@ package ChatWindowJavaFX.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Server {
@@ -59,8 +60,14 @@ public class Server {
     }
 
     public void broadCastMsg(String msg){
-        for (ClientHandler clientHandler : clients) {
-           clientHandler.sendMsg(msg);
+        Iterator<ClientHandler> iter = clients.iterator();
+        while (iter.hasNext()) {
+            ClientHandler clientHandler = iter.next();
+            if (clientHandler.getSocket().isClosed()) {
+                iter.remove();
+            } else {
+                clientHandler.sendMsg(msg);
+            }
         }
 
     }
