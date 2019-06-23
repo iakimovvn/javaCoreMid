@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler {
+    private ClientHandler clientHandler;
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
@@ -14,6 +15,7 @@ public class ClientHandler {
 
     public ClientHandler(Socket socket, Server server) {
         try {
+            this.clientHandler = this;
             this.socket = socket;
             this.server = server;
             this.in = new DataInputStream(socket.getInputStream());
@@ -25,16 +27,6 @@ public class ClientHandler {
                     try {
                         while (true){
                             String str = in.readUTF();
-
-//                            if(str.equals("-1")){
-//                                System.out.println("");
-//                            }
-
-//                            if(in.read()<=-1){
-//                                System.out.println("Disconnect");
-//                                break;
-//                            }
-
                             if(str.equals("/end")){
                                 break;
                             }
@@ -43,6 +35,7 @@ public class ClientHandler {
                 }
                     catch(EOFException e){
                         System.out.println("Disconnect");
+                        server.unsubscribe(clientHandler);
                     }
                     catch (IOException e) {
                     e.printStackTrace();
@@ -77,13 +70,5 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public DataInputStream getIn() {
-        return in;
     }
 }

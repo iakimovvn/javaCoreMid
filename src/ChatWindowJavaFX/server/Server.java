@@ -20,27 +20,8 @@ public class Server {
             while (true){
                 socket = server.accept();
                 System.out.println("Client connect");
-                clients.add(new ClientHandler(socket,this));
 
-
-
-
-
-//                if(socket.getInputStream().read() < 0){
-//                    System.out.println("Socet disconnect");
-//                    socket.close();
-//
-//
-//                }
-
-
-//                for(ClientHandler clientHandler : clients){
-//                    if(clientHandler.getIn().read()==1){
-//                        System.out.println("Socet disconnect");
-//                        clients.remove(clientHandler);
-//                    }
-//                }
-
+                subscribe(new ClientHandler(socket,this));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,15 +41,24 @@ public class Server {
     }
 
     public void broadCastMsg(String msg){
-        Iterator<ClientHandler> iter = clients.iterator();
-        while (iter.hasNext()) {
-            ClientHandler clientHandler = iter.next();
-            if (clientHandler.getSocket().isClosed()) {
-                iter.remove();
-            } else {
-                clientHandler.sendMsg(msg);
-            }
+        for (ClientHandler clientHandler : clients ) {
+            clientHandler.sendMsg(msg);
         }
+//        Iterator<ClientHandler> iter = clients.iterator();
+//        while (iter.hasNext()) {
+//            ClientHandler clientHandler = iter.next();
+//            if (clientHandler.getSocket().isClosed()) {
+//                iter.remove();
+//            } else {
+//                clientHandler.sendMsg(msg);
+//            }
+//        }
 
+    }
+    public void subscribe (ClientHandler clientHandler){
+        clients.add(clientHandler);
+    }
+    public void unsubscribe (ClientHandler clientHandler){
+        clients.remove(clientHandler);
     }
 }
