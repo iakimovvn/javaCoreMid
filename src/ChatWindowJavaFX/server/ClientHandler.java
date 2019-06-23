@@ -2,6 +2,7 @@ package ChatWindowJavaFX.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -25,9 +26,9 @@ public class ClientHandler {
                         while (true){
                             String str = in.readUTF();
 
-                            if(str.equals("-1")){
-                                System.out.println("");
-                            }
+//                            if(str.equals("-1")){
+//                                System.out.println("");
+//                            }
 
 //                            if(in.read()<=-1){
 //                                System.out.println("Disconnect");
@@ -39,7 +40,11 @@ public class ClientHandler {
                             }
                             server.broadCastMsg(str);
                     }
-                } catch (IOException e) {
+                }
+                    catch(EOFException e){
+                        System.out.println("Disconnect");
+                    }
+                    catch (IOException e) {
                     e.printStackTrace();
                 }finally {
                         try {
