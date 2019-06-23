@@ -15,17 +15,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.nio.channels.Selector;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    Socket socket;
-    DataInputStream in;
-    DataOutputStream out;
+    private Socket socket;
+    private DataInputStream in;
+    private DataOutputStream out;
 
-    final String IP_ADRESS = "localhost";
-    final int PORT = 8189;
+    private final String IP_ADRESS = "localhost";
+    private final int PORT = 8189;
 
 
     @FXML
@@ -76,7 +75,6 @@ public class Controller implements Initializable {
                                     inputToTextFlow(str+"\n");
                                 }
                             });
-
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
