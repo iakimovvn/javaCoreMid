@@ -1,5 +1,7 @@
 package ChatWindowJavaFX.server;
 
+import javafx.fxml.FXML;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -12,6 +14,7 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
     private Server server;
+
 
     public ClientHandler(Socket socket, Server server) {
         try {
@@ -35,7 +38,6 @@ public class ClientHandler {
                 }
                     catch(EOFException e){
                         System.out.println("Client Disconnect");
-                        server.unsubscribe(clientHandler);
                     }
                     catch (IOException e) {
                     e.printStackTrace();
@@ -55,7 +57,7 @@ public class ClientHandler {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
+                        server.unsubscribe(clientHandler);
                     }
 
                 }
