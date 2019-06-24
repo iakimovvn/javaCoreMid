@@ -34,7 +34,7 @@ public class ClientHandler {
                     }
                 }
                     catch(EOFException e){
-                        System.out.println("Disconnect");
+                        System.out.println("Client Disconnect");
                         server.unsubscribe(clientHandler);
                     }
                     catch (IOException e) {
@@ -55,6 +55,7 @@ public class ClientHandler {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+
                     }
 
                 }
