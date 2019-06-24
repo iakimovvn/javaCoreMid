@@ -23,7 +23,7 @@ public class Controller implements Initializable {
     private DataInputStream in;
     private DataOutputStream out;
 
-    private final String IP_ADRESS = "localhost";
+    private final String IP_ADDRESS = "localhost";
     private final int PORT = 8189;
 
 
@@ -58,7 +58,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resource) {
         try {
-            socket =new Socket(IP_ADRESS,PORT);
+            socket =new Socket(IP_ADDRESS,PORT);
 
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
@@ -81,6 +81,16 @@ public class Controller implements Initializable {
                     }finally {
                         try {
                             socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            out.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
