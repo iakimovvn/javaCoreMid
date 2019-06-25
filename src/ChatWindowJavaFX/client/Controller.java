@@ -2,22 +2,21 @@ package ChatWindowJavaFX.client;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.awt.event.ActionEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class Controller {
 
     private Socket socket;
     private DataInputStream in;
@@ -25,6 +24,8 @@ public class Controller implements Initializable {
 
     private final String IP_ADDRESS = "localhost";
     private final int PORT = 8189;
+
+    private boolean isAuthorized;
 
 
     @FXML
@@ -54,9 +55,21 @@ public class Controller implements Initializable {
     @FXML
     private Button btnLogin;
 
+    @FXML
+    private PasswordField passwordField;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resource) {
+    @FXML
+    private TextField loginField;
+
+    @FXML
+    Label labelNotIdentification;
+
+    @FXML
+    VBox loginPasswordPanel;
+
+
+
+    public void connect() {
         try {
             socket =new Socket(IP_ADDRESS,PORT);
 
@@ -67,6 +80,21 @@ public class Controller implements Initializable {
                 @Override
                 public void run() {
                     try {
+                        while(true) {
+                            String str = in.readUTF();
+                            if(str.startsWith("/authok")) {
+                                setAuthorized(true);
+                                break;
+                            }else{
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        labelNotIdentification.setText(str);                                    }
+                                });
+
+                            }
+
+                        }
                         while(true) {
                             String str = in.readUTF();
                             Platform.runLater(new Runnable() {
@@ -94,6 +122,7 @@ public class Controller implements Initializable {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        setAuthorized(false);
                     }
                 }
             }).start();
@@ -102,6 +131,46 @@ public class Controller implements Initializable {
         }
 
     }
+
+    private void setAuthorized(boolean isAuthorized){
+        this.isAuthorized = isAuthorized;
+        if(isAuthorized){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    textFlow.getChildren().clear();
+                }
+            });
+            loginPasswordPanel.setVisible(false);
+            textFlow.getStyleClass().remove("textFlowPassword");
+            textFlow.getStyleClass().add("textFlow");
+            btnSend.setDisable(false);
+            textField.setDisable(false);
+        }else{
+            //textFlow.getChildren().clear();
+            loginPasswordPanel.setVisible(true);
+            textFlow.getStyleClass().remove("textFlow");
+            textFlow.getStyleClass().add("textFlowPassword");
+            btnSend.setDisable(true);
+            textField.setDisable(true);
+
+        }
+    }
+
+    public void tryToAuth() {
+        if(socket == null || socket.isClosed()) {
+            connect();
+        }
+        try {
+            out.writeUTF("/auth " + loginField.getText() + " " + passwordField.getText());
+            loginField.clear();
+            passwordField.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     private void inputToTextFlow(String msg){
         textFlow.getChildren().addAll(new Text(msg));
@@ -158,6 +227,5 @@ public class Controller implements Initializable {
         btnSend.setDisable(false);
         textField.setDisable(false);
     }
-
 
 }

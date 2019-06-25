@@ -52,28 +52,29 @@
             <ScrollPane fx:id="scrollPane"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
                 <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlowPassword" >
                     <children>
-                        <VBox prefHeight="138.0" prefWidth="227.0">
+                        <VBox prefHeight="138.0" prefWidth="227.0" fx:id="loginPasswordPanel">
                             <children>
                                 <HBox prefHeight="38.0" prefWidth="220.0">
                                     <children>
                                         <Label text="LOGIN" styleClass="label-login-password"/>
-                                        <TextField styleClass="text-field-login-password" />
+                                        <TextField styleClass="text-field-login-password" fx:id="loginField" promptText="login" />
                                     </children>
                                 </HBox>
                                 <HBox prefHeight="38.0" prefWidth="220.0">
                                     <children>
                                         <Label text="PASSWORD" styleClass="label-login-password"/>
-                                        <PasswordField styleClass="text-field-login-password" />
+                                        <PasswordField styleClass="text-field-login-password" fx:id="passwordField" onAction="#tryToAuth" promptText="password" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="TOP_RIGHT" prefHeight="27.0" prefWidth="163.0">
                                     <children>
                                         <Hyperlink text="Forget password?" styleClass="hyperlink-forgot"/>
                                         <Button text="Login" mnemonicParsing="false" styleClass="button-login"
-                                                onAction="#login" fx:id="btnLogin"/>
+                                                onAction="#tryToAuth" fx:id="btnLogin"/>
                                     </children>
                                 </HBox>
                                 <Hyperlink text="Registration" styleClass="hyperlink-registration" />
+                                <Label fx:id="labelNotIdentification" styleClass="notIdentification"/>
                             </children>
                         </VBox>
                     </children>

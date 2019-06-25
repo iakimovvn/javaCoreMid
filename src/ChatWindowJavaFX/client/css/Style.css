@@ -134,6 +134,13 @@
     -fx-pref-width: 152;
     -fx-pref-height: 27;
 }
+.notIdentification{
+    -fx-pref-width: 182;
+    -fx-pref-height: 27;
+    -fx-text-fill: RED;
+    -fx-font-size: 14;
+    -fx-font-family: Arial;
+}
 
 
 

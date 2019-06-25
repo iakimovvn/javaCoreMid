@@ -1,7 +1,5 @@
 package ChatWindowJavaFX.server;
 
-import javafx.fxml.FXML;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -9,16 +7,16 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler {
-    private ClientHandler clientHandler;
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
     private Server server;
 
+    private String nick;
+
 
     public ClientHandler(Socket socket, Server server) {
         try {
-            this.clientHandler = this;
             this.socket = socket;
             this.server = server;
             this.in = new DataInputStream(socket.getInputStream());
@@ -28,12 +26,32 @@ public class ClientHandler {
                 @Override
                 public void run() {
                     try {
+                        while (true) {
+                            String str = in.readUTF();
+                            if(str.startsWith("/auth")) {
+                                String[] tokens = str.split(" ");
+                                String newNick = AuthService.getNickByLoginAndPass(tokens[1], tokens[2]);
+                                if(server.isAlreadyGone(newNick)){
+                                    sendMsg("Пользователь в сети!");
+                                } else {
+                                    if (newNick != null) {
+                                        sendMsg("/authok");
+                                        nick = newNick;
+                                        server.subscribe(ClientHandler.this);
+                                        break;
+                                    } else {
+                                        sendMsg("Неверный логин/пароль!");
+                                    }
+                                }
+                            }
+                        }
+
                         while (true){
                             String str = in.readUTF();
                             if(str.equals("/end")){
                                 break;
                             }
-                            server.broadCastMsg(str);
+                            server.broadCastMsg(str,nick);
                     }
                 }
                     catch(EOFException e){
@@ -57,7 +75,7 @@ public class ClientHandler {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        server.unsubscribe(clientHandler);
+                        server.unsubscribe(ClientHandler.this);
                     }
 
                 }
@@ -73,5 +91,9 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getNick() {
+        return nick;
     }
 }
