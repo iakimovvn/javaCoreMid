@@ -56,7 +56,7 @@ public class Server {
         }
         for (ClientHandler clientHandler : clients ) {
             if(isPrivateMessage){
-                if(clientHandler.getNick().equals(messageArr[1])){
+                if(clientHandler.getNick().equals(messageArr[1]) || clientHandler.getNick().equals(nickFrom)){
                     clientHandler.sendMsg(nickFrom+": "+msg);
                 }
 
