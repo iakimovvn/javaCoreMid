@@ -57,7 +57,7 @@ public class Server {
         for (ClientHandler clientHandler : clients ) {
             if(isPrivateMessage){
                 if(clientHandler.getNick().equals(messageArr[1]) || clientHandler.getNick().equals(nickFrom)){
-                    clientHandler.sendMsg(nickFrom+": "+msg);
+                    clientHandler.sendMsg(nickFrom+" (приватно):  "+msg);
                 }
 
             }else {
@@ -71,6 +71,7 @@ public class Server {
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = from; i <= to; i++) {
             stringBuffer.append(arr[i]);
+            stringBuffer.append(" ");
         }
         return stringBuffer.toString();
     }

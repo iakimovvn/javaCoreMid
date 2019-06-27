@@ -207,13 +207,17 @@ public class Controller {
         scrollPane.setVvalue(1.0);
     }
 
-    private String makeLogin(String loginWithPoints){
-        char [] charLogin = loginWithPoints.toCharArray();
+    private String makeLogin(String login){
+        char [] charLogin = login.toCharArray();
         StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i <charLogin.length-1 ; i++) {
-            stringBuffer.append(charLogin[i]);
+        if(charLogin[charLogin.length-1]==':'){
+            for (int i = 0; i <charLogin.length-1 ; i++) {
+
+                stringBuffer.append(charLogin[i]);
+            }
+            login = stringBuffer.toString();
         }
-        return stringBuffer.toString();
+        return login;
     }
 
 
@@ -221,6 +225,7 @@ public class Controller {
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = from; i <= to; i++) {
             stringBuffer.append(arr[i]);
+            stringBuffer.append(" ");
         }
         return stringBuffer.toString();
     }
