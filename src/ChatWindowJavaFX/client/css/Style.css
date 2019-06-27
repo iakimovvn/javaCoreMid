@@ -142,5 +142,12 @@
     -fx-font-family: Arial;
 }
 
+.hyperlink-nickname{
+    -fx-font-family: Arial;
+    -fx-font-size: 20;
+    -fx-text-fill: red;
+
+}
+
 
 

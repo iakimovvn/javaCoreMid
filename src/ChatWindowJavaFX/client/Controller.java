@@ -1,6 +1,8 @@
 package ChatWindowJavaFX.client;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -10,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.awt.event.ActionEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -173,20 +174,44 @@ public class Controller {
 
 
     private void inputToTextFlow(String msg){
-        textFlow.getChildren().addAll(new Text(msg));
+        String[] msgArr = msg.split(" ");
+        msg = makeMessageFromArray(msgArr,1,msgArr.length-1);
+        Hyperlink nickname = new Hyperlink(msgArr[0]);
+        nickname.setStyle("StyleClass: hyperlink-nickname");
+
+        nickname.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                textField.setText("/w "+makeLogin(msgArr[0])+" ");
+                textField.requestFocus();
+
+            }
+        });
+        textFlow.getChildren().addAll(nickname,new Text(msg));
         scrollPane.setVvalue(1.0);
+    }
+
+    private String makeLogin(String loginWithPoints){
+        char [] charLogin = loginWithPoints.toCharArray();
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i <charLogin.length-1 ; i++) {
+            stringBuffer.append(charLogin[i]);
+        }
+        return stringBuffer.toString();
+    }
 
 
+    private String makeMessageFromArray(String [] arr, int from, int to){
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = from; i <= to; i++) {
+            stringBuffer.append(arr[i]);
+        }
+        return stringBuffer.toString();
     }
 
 
     public void sendMsg(){
-//        Text text = new Text(":\t"+textField.getText()+"\n");
-//        Label  login = new Label(userName.getText());
-//        login.getStyleClass().add("loginLabel");
-//
-//        textFlow.getChildren().addAll(new ImageView(avatarImg.getImage()),login,text);
-//        scrollPane.setValue(1.0);
 
         try {
             out.writeUTF(textField.getText());
@@ -220,12 +245,5 @@ public class Controller {
         textFlow.getChildren().clear();
     }
 
-    public void login(){
-        textFlow.getChildren().clear();
-        textFlow.getStyleClass().remove("textFlowPassword");
-        textFlow.getStyleClass().add("textFlow");
-        btnSend.setDisable(false);
-        textField.setDisable(false);
-    }
 
 }
