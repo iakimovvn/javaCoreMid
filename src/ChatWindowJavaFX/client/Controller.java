@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -68,6 +69,11 @@ public class Controller {
     @FXML
     VBox loginPasswordPanel;
 
+    @FXML
+    Circle circleIsInNet;
+
+
+
 
 
     public void connect() {
@@ -85,6 +91,15 @@ public class Controller {
                             String str = in.readUTF();
                             if(str.startsWith("/authok")) {
                                 setAuthorized(true);
+                                String[] nickArr = str.split(" ");
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        userName.setText(nickArr[1]);
+                                        circleIsInNet.setStyle("-fx-fill: green");
+                                    }
+                                });
+
                                 break;
                             }else{
                                 Platform.runLater(new Runnable() {

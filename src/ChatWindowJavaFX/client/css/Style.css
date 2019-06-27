@@ -149,5 +149,13 @@
 
 }
 
+.circleNotInNet{
+    -fx-fill: Red;
+}
+.circleInNet{
+    -fx-fill: Green;
+}
+
+
 
 

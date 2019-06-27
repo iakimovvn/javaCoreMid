@@ -42,7 +42,7 @@
 
                     <Label fx:id="userName" text="userName" styleClass="userLogin"/>
 
-                    <Circle disable="true" fill="#3ed936"  radius="8.0" stroke="WHITE" strokeLineJoin="ROUND">
+                    <Circle disable="true" fx:id="circleIsInNet" styleClass="circleNotInNet"  radius="8.0" stroke="WHITE" strokeLineJoin="ROUND">
                         <HBox.margin>
                             <Insets left="15.0" />
                         </HBox.margin>

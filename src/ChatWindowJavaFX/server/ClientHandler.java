@@ -35,7 +35,7 @@ public class ClientHandler {
                                     sendMsg("Пользователь в сети!");
                                 } else {
                                     if (newNick != null) {
-                                        sendMsg("/authok");
+                                        sendMsg("/authok "+newNick);
                                         nick = newNick;
                                         server.subscribe(ClientHandler.this);
                                         break;
