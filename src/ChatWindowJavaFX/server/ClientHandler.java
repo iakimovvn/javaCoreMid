@@ -5,18 +5,24 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
     private Server server;
+    List<String> blackList;
 
     private String nick;
+    private boolean authOk = false;
+
 
 
     public ClientHandler(Socket socket, Server server) {
         try {
+            this.blackList = new ArrayList<>();
             this.socket = socket;
             this.server = server;
             this.in = new DataInputStream(socket.getInputStream());
@@ -28,36 +34,75 @@ public class ClientHandler {
                     try {
                         while (true) {
                             String str = in.readUTF();
+                            if (str.equals("/end")) {
+                                out.writeUTF("/serverclosed");
+                                break;
+                            }
                             if(str.startsWith("/auth")) {
                                 String[] tokens = str.split(" ");
                                 String newNick = AuthService.getNickByLoginAndPass(tokens[1], tokens[2]);
-                                if(server.isAlreadyGone(newNick)){
-                                    sendMsg("Пользователь в сети!");
-                                } else {
-                                    if (newNick != null) {
-                                        sendMsg("/authok "+newNick);
+                                if (newNick != null) {
+                                    if(!server.isNickBusy(newNick)){
+                                        authOk = true;
+                                        sendMsg("/authok " +newNick);
                                         nick = newNick;
                                         server.subscribe(ClientHandler.this);
                                         break;
                                     } else {
-                                        sendMsg("Неверный логин/пароль!");
+                                        sendMsg("Пользователь в сети.");
                                     }
+                                }else {
+                                    sendMsg("Неверный логин/пароль");
                                 }
                             }
                         }
 
-                        while (true){
+                        while (authOk){
                             String str = in.readUTF();
-                            if(str.equals("/end")){
-                                break;
+                            if(str.startsWith("/")) {
+                                if (str.equals("/end")) {
+                                    out.writeUTF("/serverclosed");
+                                    break;
+                                }
+                                if(str.startsWith("/w")){
+                                    String[] tokens = str.split(" ",3);
+                                    server.sendPersonalMsg(ClientHandler.this,tokens[1],tokens[2]);
+                                }
+                                if(str.startsWith("/blacklist")){
+                                    String[] tokens = str.split(" ");
+                                    if(nick.equals(tokens[1])){
+                                        sendMsg("Вы не можете добавить в черный список самого себя");
+                                    }
+                                    else if(AuthService.isUserWithNick(tokens[1])) {
+                                        if (AuthService.isInBlackList(nick, tokens[1])) {
+                                            sendMsg("пользователь уже в черном списке");
+                                        } else {
+                                            AuthService.addToBlackList(nick, tokens[1]);
+                                            sendMsg("Вы добавили пользователя " + tokens[1] + " в черный список");
+                                        }
+                                    }else{
+                                        sendMsg("Пользователь с ником "+tokens[1]+" не зарегистрирован");
+                                    }
+                                }
+                                if(str.startsWith("/delblacklist")){
+                                    String[] tokens = str.split(" ");
+                                    if (AuthService.isInBlackList(nick, tokens[1])) {
+                                        AuthService.deleteFromBlackList(nick, tokens[1]);
+                                        sendMsg("Вы удалили пользователя " + tokens[1] + " из черного списока");
+                                    } else {
+                                        sendMsg("Пользователя "+ tokens[1]+" нет в черном списке");
+
+                                    }
+                                }
+                                if(str.startsWith("/clearblacklist")){
+                                    AuthService.clearBlackList(nick);
+                                    sendMsg("Черный список очищен.");
+                                }
+                            }else {
+                                server.broadcastMsg(ClientHandler.this,nick+": "+str);
                             }
-                            server.broadCastMsg(str,nick);
                     }
-                }
-                    catch(EOFException e){
-                        System.out.println("Client Disconnect");
-                    }
-                    catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }finally {
                         try {
@@ -76,6 +121,8 @@ public class ClientHandler {
                             e.printStackTrace();
                         }
                         server.unsubscribe(ClientHandler.this);
+                        System.out.println("Client Disconnect");
+
                     }
 
                 }
@@ -96,4 +143,9 @@ public class ClientHandler {
     public String getNick() {
         return nick;
     }
+
+    public boolean checkBlackList(String nick){
+        return blackList.contains(nick);
+    }
+
 }

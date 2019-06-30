@@ -1,11 +1,9 @@
 package ChatWindowJavaFX.server;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class Server {
@@ -45,41 +43,51 @@ public class Server {
             AuthService.disconnect();
         }
     }
-
-    public void broadCastMsg(String msg,String nickFrom){
-        boolean isPrivateMessage =false;
-        String[] messageArr = msg.split(" ");;
-
-        if(msg.startsWith("/w")){
-            isPrivateMessage = true;
-            msg = makeMessageFromArray(messageArr,2,messageArr.length-1);
-        }
-        for (ClientHandler clientHandler : clients ) {
-            if(isPrivateMessage){
-                if(clientHandler.getNick().equals(messageArr[1]) || clientHandler.getNick().equals(nickFrom)){
-                    clientHandler.sendMsg(nickFrom+" (приватно):  "+msg);
-                }
-
-            }else {
-                clientHandler.sendMsg(nickFrom+": "+msg);
+    public boolean isNickBusy(String nick) {
+        for (ClientHandler o : clients) {
+            if (o.getNick().equals(nick)) {
+                return true;
             }
         }
+        return false;
+    }
 
+    public void broadcastMsg(ClientHandler from, String msg) {
+        for (ClientHandler o : clients) {
+            if (!o.checkBlackList(from.getNick())) {
+                o.sendMsg(msg);
+            }
+        }
+    }
+
+    public void sendPersonalMsg(ClientHandler from, String nickTo, String msg) {
+        for (ClientHandler o : clients) {
+            if (o.getNick().equals(nickTo)) {
+                o.sendMsg("from " + from.getNick() + ": " + msg);
+                from.sendMsg("(приватно)" + nickTo + ": " + msg);
+                return;
+            }
+        }
+        from.sendMsg("Клиент с ником " + nickTo + " не найден в чате");
     }
 
     private String makeMessageFromArray(String [] arr, int from, int to){
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = from; i <= to; i++) {
-            stringBuffer.append(arr[i]);
-            stringBuffer.append(" ");
+            stringBuilder.append(arr[i]);
+            stringBuilder.append(" ");
         }
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
+
     public void subscribe (ClientHandler clientHandler){
         clients.add(clientHandler);
+        broadcastClientList();
     }
+
     public void unsubscribe (ClientHandler clientHandler){
         clients.remove(clientHandler);
+        broadcastClientList();
     }
 
     public boolean isAlreadyGone(String nick){
@@ -89,5 +97,18 @@ public class Server {
             }
         }
         return false;
+    }
+
+    public void broadcastClientList(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("/clientlist ");
+        for (ClientHandler clientHandler : clients) {
+           stringBuilder.append(clientHandler.getNick()+" ") ;
+        }
+        String out = stringBuilder.toString();
+        for (ClientHandler clientHandler: clients) {
+            clientHandler.sendMsg(out);
+        }
+
     }
 }

@@ -89,10 +89,10 @@
         </VBox>
 
         <VBox styleClass="contactsSite">
-            <Label  styleClass="contactsTitleBlueRed" text="Contacts" fx:id="contactsTitle"/>
+            <Label  styleClass="contactsTitleBlueRed" text="Users in net" fx:id="contactsTitle"/>
             <ScrollPane   VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
                         prefWidth="280.0" styleClass="scrollPaneContacts">
-                <TextFlow  VBox.Vgrow="ALWAYS"  styleClass="textFlowContacts" />
+                <TextFlow  VBox.Vgrow="ALWAYS"  styleClass="textFlowContacts" fx:id="clientFlow"/>
             </ScrollPane>
 
         </VBox>

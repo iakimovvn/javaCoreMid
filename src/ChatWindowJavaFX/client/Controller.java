@@ -72,6 +72,9 @@ public class Controller {
     @FXML
     Circle circleIsInNet;
 
+    @FXML
+    TextFlow clientFlow;
+
 
 
 
@@ -79,6 +82,7 @@ public class Controller {
     public void connect() {
         try {
             socket =new Socket(IP_ADDRESS,PORT);
+            this.isAuthorized = false;
 
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
@@ -89,6 +93,7 @@ public class Controller {
                     try {
                         while(true) {
                             String str = in.readUTF();
+                            if (str.startsWith("/serverclosed")) break;
                             if(str.startsWith("/authok")) {
                                 setAuthorized(true);
                                 String[] nickArr = str.split(" ");
@@ -111,30 +116,37 @@ public class Controller {
                             }
 
                         }
-                        while(true) {
+                        while(isAuthorized) {
                             String str = in.readUTF();
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    inputToTextFlow(str+"\n");
-                                }
-                            });
+                            if (str.startsWith("/serverclosed")) break;
+                            if (str.startsWith("/clientlist")) {
+                                String[] tokens = str.split(" ");
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        clientFlow.getChildren().clear();
+                                        for (int i = 1; i < tokens.length; i++) {
+                                            Hyperlink nickHyper = makeHyperlinkLogin(tokens[i]);
+
+                                            clientFlow.getChildren().addAll(nickHyper,new Text("\n"));
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        inputToTextFlow(str + "\n");
+                                    }
+                                });
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }finally {
                         try {
                             socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            in.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            out.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -158,10 +170,13 @@ public class Controller {
                 }
             });
             loginPasswordPanel.setVisible(false);
-            textFlow.getStyleClass().remove("textFlowPassword");
-            textFlow.getStyleClass().add("textFlow");
+//            textFlow.getStyleClass().remove("textFlowPassword");
+//            textFlow.getStyleClass().add("textFlow");
             btnSend.setDisable(false);
             textField.setDisable(false);
+            contactsTitle.setVisible(true);
+            clientFlow.setVisible(true);
+
         }else{
             //textFlow.getChildren().clear();
             loginPasswordPanel.setVisible(true);
@@ -186,24 +201,29 @@ public class Controller {
         }
     }
 
-
-
-    private void inputToTextFlow(String msg){
-        String[] msgArr = msg.split(" ");
-        msg = makeMessageFromArray(msgArr,1,msgArr.length-1);
-        Hyperlink nickname = new Hyperlink(msgArr[0]);
+    private Hyperlink makeHyperlinkLogin(String nickNameStr){
+        Hyperlink nickname = new Hyperlink(nickNameStr);
         nickname.setStyle("StyleClass: hyperlink-nickname");
 
         nickname.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
 
-                textField.setText("/w "+makeLogin(msgArr[0])+" ");
+                textField.setText("/w "+makeLogin(nickNameStr)+" ");
                 textField.requestFocus();
 
             }
         });
-        textFlow.getChildren().addAll(nickname,new Text(msg));
+        return nickname;
+    }
+
+
+
+    private void inputToTextFlow(String msg){
+        String[] msgArr = msg.split(" ");
+        msg = makeMessageFromArray(msgArr,1,msgArr.length-1);
+        Hyperlink nickName = makeHyperlinkLogin(msgArr[0]);
+        textFlow.getChildren().addAll(nickName,new Text(msg));
         scrollPane.setVvalue(1.0);
     }
 
@@ -222,13 +242,14 @@ public class Controller {
 
 
     private String makeMessageFromArray(String [] arr, int from, int to){
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = from; i <= to; i++) {
-            stringBuffer.append(arr[i]);
-            stringBuffer.append(" ");
+            stringBuilder.append(arr[i]);
+            stringBuilder.append(" ");
         }
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
+
 
 
     public void sendMsg(){
@@ -264,6 +285,15 @@ public class Controller {
     public void clearChat(){
         textFlow.getChildren().clear();
     }
-
+    public void dispose(){
+        try {
+            if(out != null) {
+                System.out.println("Close");
+                out.writeUTF("/end");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
