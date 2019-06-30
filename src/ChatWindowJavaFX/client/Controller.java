@@ -15,6 +15,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -28,6 +29,9 @@ public class Controller {
     private final int PORT = 8189;
 
     private boolean isAuthorized;
+
+    private String login = null;
+    private String password = null;
 
 
     @FXML
@@ -79,6 +83,7 @@ public class Controller {
 
 
 
+
     public void connect() {
         try {
             socket =new Socket(IP_ADDRESS,PORT);
@@ -93,7 +98,7 @@ public class Controller {
                     try {
                         while(true) {
                             String str = in.readUTF();
-                            if (str.startsWith("/serverclosed")) break;
+                            if(str.startsWith("/serverclosed")) break;
                             if(str.startsWith("/authok")) {
                                 setAuthorized(true);
                                 String[] nickArr = str.split(" ");
@@ -107,6 +112,8 @@ public class Controller {
 
                                 break;
                             }else{
+                                login = null;
+                                password = null;
                                 Platform.runLater(new Runnable() {
                                     @Override
                                     public void run() {
@@ -117,6 +124,25 @@ public class Controller {
 
                         }
                         while(isAuthorized) {
+//                            String str;
+//
+//                            while(true){
+//                                if(!socket.isInputShutdown()){
+//                                    try {
+//                                        str = in.readUTF();
+//                                        break;
+//                                    }catch(EOFException e){
+//                                        inputToTextFlow("Разрыв соединения");
+//                                    }
+//                                }else {
+//                                    try {
+//                                        Thread.sleep(1000);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+
                             String str = in.readUTF();
                             if (str.startsWith("/serverclosed")) break;
                             if (str.startsWith("/clientlist")) {
@@ -160,6 +186,7 @@ public class Controller {
 
     }
 
+
     private void setAuthorized(boolean isAuthorized){
         this.isAuthorized = isAuthorized;
         if(isAuthorized){
@@ -192,8 +219,10 @@ public class Controller {
         if(socket == null || socket.isClosed()) {
             connect();
         }
+        login = loginField.getText();
+        password = passwordField.getText();
         try {
-            out.writeUTF("/auth " + loginField.getText() + " " + passwordField.getText());
+            out.writeUTF("/auth " + login + " " + password);
             loginField.clear();
             passwordField.clear();
         } catch (IOException e) {
@@ -229,13 +258,13 @@ public class Controller {
 
     private String makeLogin(String login){
         char [] charLogin = login.toCharArray();
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         if(charLogin[charLogin.length-1]==':'){
             for (int i = 0; i <charLogin.length-1 ; i++) {
 
-                stringBuffer.append(charLogin[i]);
+                stringBuilder.append(charLogin[i]);
             }
-            login = stringBuffer.toString();
+            login = stringBuilder.toString();
         }
         return login;
     }

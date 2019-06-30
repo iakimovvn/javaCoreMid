@@ -13,7 +13,6 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
     private Server server;
-    List<String> blackList;
 
     private String nick;
     private boolean authOk = false;
@@ -22,7 +21,6 @@ public class ClientHandler {
 
     public ClientHandler(Socket socket, Server server) {
         try {
-            this.blackList = new ArrayList<>();
             this.socket = socket;
             this.server = server;
             this.in = new DataInputStream(socket.getInputStream());
@@ -143,9 +141,4 @@ public class ClientHandler {
     public String getNick() {
         return nick;
     }
-
-    public boolean checkBlackList(String nick){
-        return blackList.contains(nick);
-    }
-
 }

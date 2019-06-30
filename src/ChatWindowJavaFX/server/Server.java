@@ -54,7 +54,7 @@ public class Server {
 
     public void broadcastMsg(ClientHandler from, String msg) {
         for (ClientHandler o : clients) {
-            if (!o.checkBlackList(from.getNick())) {
+            if (!AuthService.isInBlackList(from.getNick(),o.getNick())) {
                 o.sendMsg(msg);
             }
         }
@@ -63,9 +63,14 @@ public class Server {
     public void sendPersonalMsg(ClientHandler from, String nickTo, String msg) {
         for (ClientHandler o : clients) {
             if (o.getNick().equals(nickTo)) {
-                o.sendMsg("from " + from.getNick() + ": " + msg);
-                from.sendMsg("(приватно)" + nickTo + ": " + msg);
-                return;
+                if(AuthService.isInBlackList(o.getNick(),from.getNick())){
+                    from.sendMsg("Вы находитесь в черном списке. Сообщение не отправлено ");
+                    return;
+                }else {
+                    o.sendMsg("(private) " + from.getNick() + ": " + msg);
+                    from.sendMsg("(private) " + nickTo + ": " + msg);
+                    return;                }
+
             }
         }
         from.sendMsg("Клиент с ником " + nickTo + " не найден в чате");
@@ -89,15 +94,14 @@ public class Server {
         clients.remove(clientHandler);
         broadcastClientList();
     }
+//
+//    public void sendServerCrash(){
+//        for (ClientHandler o: clients) {
+//            o.sendMsg("/servercrash");
+//            System.out.println("Server crash");
+//        }
+//    }
 
-    public boolean isAlreadyGone(String nick){
-        for (ClientHandler clientHandler: clients) {
-            if(clientHandler.getNick().equals(nick)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void broadcastClientList(){
         StringBuilder stringBuilder = new StringBuilder();
