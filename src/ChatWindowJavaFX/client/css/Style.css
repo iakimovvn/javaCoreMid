@@ -79,7 +79,11 @@
     -fx-text-fill: RED;
 }
 
-
+.backPanel{
+    -fx-border-color: #d1fffa;
+    -fx-color-label-visible: #d1fffa;;
+    -fx-background-color: #d1fffa;
+}
 .scroll-pane .viewport{
     -fx-background-color: #d1fffa;
 }
@@ -112,6 +116,9 @@
 }
 
 .label-login-password{
+    -fx-font-size: 16;
+    -fx-text-alignment: left;
+    -fx-alignment: CENTER_LEFT;
     -fx-pref-width: 170;
     -fx-pref-height: 78;
 }
@@ -121,18 +128,20 @@
 }
 
 .button-login{
+    -fx-border-color: #ffac21;
+    -fx-background-color: #fff081;
     -fx-pref-width: 75;
     -fx-pref-height: 27;
 }
 
 .hyperlink-registration{
     -fx-pref-height: 32;
-    -fx-pref-width: 233;
+    -fx-pref-width: 260;
 }
 
 .hyperlink-forgot{
-    -fx-pref-width: 152;
-    -fx-pref-height: 27;
+    -fx-pref-width: 180;
+    -fx-pref-height: 30;
 }
 .notIdentification{
     -fx-pref-width: 182;
@@ -155,6 +164,9 @@
 .circleInNet{
     -fx-fill: Green;
 }
+
+
+
 
 
 

@@ -4,6 +4,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
@@ -18,6 +21,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Collection;
 
 public class Controller {
 
@@ -78,6 +82,12 @@ public class Controller {
 
     @FXML
     TextFlow clientFlow;
+
+    @FXML
+    VBox rootVBox;
+
+    @FXML
+    VBox vBoxChatPanel;
 
 
 
@@ -176,7 +186,7 @@ public class Controller {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        setAuthorized(false);
+                        //setAuthorized(false);
                     }
                 }
             }).start();
@@ -190,15 +200,25 @@ public class Controller {
     private void setAuthorized(boolean isAuthorized){
         this.isAuthorized = isAuthorized;
         if(isAuthorized){
+
+
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    textFlow.getChildren().clear();
+                    rootVBox.getChildren().clear();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chatPanel.fxml"));
+                    try {
+                        rootVBox.getChildren().add(fxmlLoader.load());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
             });
-            loginPasswordPanel.setVisible(false);
-//            textFlow.getStyleClass().remove("textFlowPassword");
-//            textFlow.getStyleClass().add("textFlow");
+//            loginPasswordPanel.setVisible(false);
+////            textFlow.getStyleClass().remove("textFlowPassword");
+////            textFlow.getStyleClass().add("textFlow");
             btnSend.setDisable(false);
             textField.setDisable(false);
             contactsTitle.setVisible(true);
@@ -314,6 +334,7 @@ public class Controller {
     public void clearChat(){
         textFlow.getChildren().clear();
     }
+
     public void dispose(){
         try {
             if(out != null) {
