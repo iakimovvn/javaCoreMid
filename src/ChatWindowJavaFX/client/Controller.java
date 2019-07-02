@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import jdk.jfr.Description;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -91,9 +92,6 @@ public class Controller {
 
 
 
-
-
-
     public void connect() {
         try {
             socket =new Socket(IP_ADDRESS,PORT);
@@ -160,7 +158,7 @@ public class Controller {
                                 Platform.runLater(new Runnable() {
                                     @Override
                                     public void run() {
-                                        clientFlow.getChildren().clear();
+                                     //   clientFlow.getChildren().clear();
                                         for (int i = 1; i < tokens.length; i++) {
                                             Hyperlink nickHyper = makeHyperlinkLogin(tokens[i]);
 
@@ -201,28 +199,17 @@ public class Controller {
         this.isAuthorized = isAuthorized;
         if(isAuthorized){
 
-
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     rootVBox.getChildren().clear();
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chatPanel.fxml"));
-                    try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chatPanel.fxml"));try {
                         rootVBox.getChildren().add(fxmlLoader.load());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             });
-//            loginPasswordPanel.setVisible(false);
-////            textFlow.getStyleClass().remove("textFlowPassword");
-////            textFlow.getStyleClass().add("textFlow");
-            btnSend.setDisable(false);
-            textField.setDisable(false);
-            contactsTitle.setVisible(true);
-            clientFlow.setVisible(true);
 
         }else{
             //textFlow.getChildren().clear();

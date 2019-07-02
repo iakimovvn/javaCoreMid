@@ -17,61 +17,64 @@
 <?import javafx.scene.control.ScrollPane?>
 
 
-<VBox fx:id="vBoxChatPanel" fx:controller="ChatWindowJavaFX.client.Controller" xmlns:fx="http://javafx.com/fxml">
-     <children>
-    <MenuBar prefHeight="29.0">
-        <Menu mnemonicParsing="false" text="Theme">
-            <MenuItem mnemonicParsing="false" text="Blue-Red"  onAction="#makeBlueRedTheme" />
-            <MenuItem mnemonicParsing="false" text="Green-Yellow"  onAction="#makeGreenYellowTheme"/>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Tools">
-            <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearChat"/>
-        </Menu>
-    </MenuBar>
-    <HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" VBox.vgrow="ALWAYS" >
-        <stylesheets><URL value="@/ChatWindowJavaFX/client/css/Style.css"/></stylesheets>
-        <VBox styleClass="messageSite" >
-            <HBox  depthTest="ENABLE"  styleClass="loginTitleBlueRed" fx:id="loginTitle">
-                <ImageView fx:id="avatarImg" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                    <Image  url="@/ChatWindowJavaFX/client/smiles/anger.png" />
-                    <HBox.margin>
-                        <Insets  right="30.0"/>
-                    </HBox.margin>
-                </ImageView>
+<VBox fx:id="vBoxChatPanel" fx:controller="ChatWindowJavaFX.client.Controller" xmlns:fx="http://javafx.com/fxml"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="575.0" prefWidth="600.0">
+    <stylesheets><URL value="@/ChatWindowJavaFX/client/css/Style.css"/></stylesheets>
 
-                <Label fx:id="userName" text="userName" styleClass="userLogin"/>
+    <children>
+        <MenuBar prefHeight="29.0">
+            <Menu mnemonicParsing="false" text="Theme">
+                <MenuItem mnemonicParsing="false" text="Blue-Red"  onAction="#makeBlueRedTheme" />
+                <MenuItem mnemonicParsing="false" text="Green-Yellow"  onAction="#makeGreenYellowTheme"/>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tools">
+                <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearChat"/>
+            </Menu>
+        </MenuBar>
+        <HBox alignment="CENTER" VBox.vgrow="ALWAYS" >
+            <VBox styleClass="messageSite" >
+                <HBox  depthTest="ENABLE"  styleClass="loginTitleBlueRed" fx:id="loginTitle">
+                    <ImageView fx:id="avatarImg" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <Image  url="@/ChatWindowJavaFX/client/smiles/anger.png" />
+                        <HBox.margin>
+                            <Insets  right="30.0"/>
+                        </HBox.margin>
+                    </ImageView>
 
-                <Circle disable="true" fx:id="circleIsInNet" styleClass="circleNotInNet"  radius="8.0" stroke="WHITE" strokeLineJoin="ROUND">
-                    <HBox.margin>
-                        <Insets left="15.0" />
-                    </HBox.margin>
-                </Circle>
-            </HBox>
+                    <Label fx:id="userName" text="userName" styleClass="userLogin"/>
 
-            <ScrollPane fx:id="scrollPane"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
-                <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlowPassword" >
-                    <children>
-                    </children>
-                </TextFlow>
-            </ScrollPane>
+                    <Circle disable="true" fx:id="circleIsInNet" styleClass="circleNotInNet"  radius="8.0" stroke="WHITE" strokeLineJoin="ROUND">
+                        <HBox.margin>
+                            <Insets left="15.0" />
+                        </HBox.margin>
+                    </Circle>
+                </HBox>
+
+                <ScrollPane fx:id="scrollPane"  VBox.Vgrow="ALWAYS" layoutY="1.0"  prefHeight="301.55" prefWidth="280.0" styleClass="scroll-pane">
+                    <TextFlow fx:id="textFlow"  VBox.Vgrow="ALWAYS" styleClass="textFlowPassword" >
+                        <children>
+                        </children>
+                    </TextFlow>
+                </ScrollPane>
 
 
-            <HBox>
-                <TextField promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg" fx:id="textField"  />
-                <Button  text="Send" styleClass="sendButtonRed" onAction="#sendMsg" fx:id="btnSend"  />
-            </HBox>
-        </VBox>
+                <HBox>
+                    <TextField promptText="Введите сообщение..." HBox.hgrow="ALWAYS" onAction="#sendMsg" fx:id="textField"  />
+                    <Button  text="Send" styleClass="sendButtonRed" onAction="#sendMsg" fx:id="btnSend"  />
+                </HBox>
+            </VBox>
 
-        <VBox styleClass="contactsSite">
-            <Label  styleClass="contactsTitleBlueRed" text="Users in net" fx:id="contactsTitle"/>
-            <ScrollPane   VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
-                          prefWidth="280.0" styleClass="scrollPaneContacts">
-                <TextFlow  VBox.Vgrow="ALWAYS"  styleClass="textFlowContacts" fx:id="clientFlow"/>
-            </ScrollPane>
+            <VBox styleClass="contactsSite">
+                <Label  styleClass="contactsTitleBlueRed" text="Users in net" fx:id="contactsTitle"/>
+                <ScrollPane   VBox.Vgrow="ALWAYS" layoutY="1.0" prefHeight="301.55"
+                              prefWidth="280.0" styleClass="scrollPaneContacts">
+                    <TextFlow  VBox.Vgrow="ALWAYS"  styleClass="textFlowContacts" fx:id="clientFlow"/>
+                </ScrollPane>
 
-        </VBox>
+            </VBox>
 
-    </HBox>
+        </HBox>
      </children>
 </VBox>
 
