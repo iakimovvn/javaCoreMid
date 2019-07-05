@@ -1,5 +1,7 @@
 package ChatWindowJavaFX.server;
 
+import ChatWindowJavaFX.client.Registration.RegistrationStage;
+
 import java.sql.*;
 
 public class AuthService {
@@ -69,6 +71,19 @@ public class AuthService {
         }
         return res;
     }
+    public static boolean isUserWithLogin(String login){
+        boolean isUser = false;
+        String sql = String.format("SELECT id FROM main where login = '%s'", login );
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                isUser = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isUser;
+    }
 
     public static boolean isUserWithNick(String nick){
         boolean isUser = false;
@@ -108,6 +123,29 @@ public class AuthService {
 
 
     }
+
+    public static String registration(String regDate){
+        String msg="";
+        String[] regDateArr = regDate.split(" ");
+        try {
+            if(isUserWithLogin(regDateArr[1])){
+                msg = "Пользователь с логином "+regDateArr[1]+ " уже зарегистрирован";
+            }else if(isUserWithNick(regDateArr[3])){
+                msg = "Пользователь с ником "+regDateArr[3]+ " уже зарегистрирован";
+            }else {
+                String sql = String.format("INSERT INTO main (login, password, nickname, controlword)\n" +
+                        "VALUES ('%s', '%s','%s','%s');", regDateArr[1], regDateArr[2], regDateArr[3], regDateArr[4]);
+                stmt.execute(sql);
+                msg = "/regok";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return msg;
+    }
+
+
 
     public static void clearBlackList(String holderBlackList){
         String sql = String.format("UPDATE main SET blacklist = NULL WHERE nickname = '%s'",holderBlackList);

@@ -128,25 +128,6 @@ public class Controller {
 
                         }
                         while(isAuthorized) {
-//                            String str;
-//
-//                            while(true){
-//                                if(!socket.isInputShutdown()){
-//                                    try {
-//                                        str = in.readUTF();
-//                                        break;
-//                                    }catch(EOFException e){
-//                                        inputToTextFlow("Разрыв соединения");
-//                                    }
-//                                }else {
-//                                    try {
-//                                        Thread.sleep(1000);
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }
-
                             String str = in.readUTF();
                             if (str.startsWith("/serverclosed")) break;
                             if (str.startsWith("/clientlist")) {
@@ -332,8 +313,19 @@ public class Controller {
     }
 
     public void registration(){
-        RegistrationStage rs = new RegistrationStage(out);
+        RegistrationStage rs = new RegistrationStage();
         rs.show();
     }
 
+    public DataOutputStream getOut() {
+        return out;
+    }
+
+    public DataInputStream getIn() {
+        return in;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }
