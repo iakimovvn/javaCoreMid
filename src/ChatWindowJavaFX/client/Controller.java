@@ -1,28 +1,23 @@
 package ChatWindowJavaFX.client;
 
+import ChatWindowJavaFX.client.Registration.RegistrationStage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import jdk.jfr.Description;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Collection;
 
 public class Controller {
 
@@ -99,6 +94,7 @@ public class Controller {
 
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
+
 
             new Thread(new Runnable() {
                 @Override
@@ -203,7 +199,8 @@ public class Controller {
                 @Override
                 public void run() {
                     rootVBox.getChildren().clear();
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chatPanel.fxml"));try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chatPanel.fxml"));
+                    try {
                         rootVBox.getChildren().add(fxmlLoader.load());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -331,6 +328,12 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void registration(){
+        RegistrationStage rs = new RegistrationStage(out);
+        rs.show();
     }
 
 }
